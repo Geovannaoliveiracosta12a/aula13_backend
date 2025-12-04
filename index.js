@@ -47,7 +47,7 @@ app.post("/cadastrar", (request, response) => {
 //rota para o login
 
 app.post("/login", (request, response) =>{
-    const { email, password} = request.body.user
+    const { email, password} = request.body
 
     const selectCommand = "SELECT * FROM geovannacosta_02ta WHERE email = ?"
 
@@ -58,7 +58,7 @@ app.post("/login", (request, response) =>{
         }
 
         if(user.length === 0 || user[0].password !== password){
-            reponse.json({ message: "Usuários ou senha incorretos!"})
+            response.json({ message: "Usuários ou senha incorretos!"})
         }
 
         response.json({
