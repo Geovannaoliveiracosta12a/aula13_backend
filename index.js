@@ -44,6 +44,30 @@ app.post("/cadastrar", (request, response) => {
     })
 })
 
+//rota para o login
+
+app.post("/login", (request, reponse) =>{
+    const { email, password} = response.body.user
+
+    const selectCommand = "SELECT * FROM geovannacosta_02ta WHERE email = ?"
+
+    database.query(selectCommand, [email], (error, user) =>{
+        if (error){
+            console.log(error)
+            return
+        }
+
+        if(user.length === 0 || user[0].password !== password){
+            reponse.json({ message: "Usuários ou senha incorretos!"})
+        }
+
+        response.json({
+            id: user[0].id,
+            name: user[0].name
+        })
+    })
+})
+
 app.listen(port, () =>{
     console.log(`Servidor rodando na porta ${port}!`)
 })
