@@ -46,28 +46,27 @@ app.post("/cadastrar", (request, response) => {
 
 //rota para o login
 
-app.post("/login", (request, response) => {
-    const { email, password } = request.body;
+app.post("/login", (request, response) =>{
+    const { email, password} = request.body.user
 
-    const selectCommand = "SELECT * FROM geovannacosta_02ta WHERE email = ?";
+    const selectCommand = "SELECT * FROM geovannacosta_02ta WHERE email = ?"
 
-    database.query(selectCommand, [email], (error, users) => {
-        if (error) {
-            console.log(error);
-            return response.status(500).json({ message: "Erro no servidor" });
+    database.query(selectCommand, [email], (error, user) =>{
+        if (error){
+            console.log(error)
+            return
         }
 
-        if (users.length === 0 || users[0].password !== password) {
-            return response.status(401).json({ message: "Usuário ou senha incorretos!" });
+        if(user.length === 0 || user[0].password !== password){
+            reponse.json({ message: "Usuários ou senha incorretos!"})
         }
 
         response.json({
-            id: users[0].id,
-            name: users[0].name
-        });
-    });
-});
-
+            id: user[0].id,
+            name: user[0].name
+        })
+    })
+})
 
 app.listen(port, () =>{
     console.log(`Servidor rodando na porta ${port}!`)
